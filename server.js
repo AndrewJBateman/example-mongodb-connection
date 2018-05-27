@@ -1,6 +1,7 @@
 // init project
 var express = require('express');
 var mongodb = require('mongodb');
+var mongoose = require('mongoose');
 var app = express();
 var dbSongs="";
 
