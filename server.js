@@ -1,98 +1,106 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const dbSongs="";
 
-var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
+app.use(express.static('public'));
 
-mongoose.connect(uri);
-
-let db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'connection error:'));
-
-db.once('open', function callback() {
-
-  // Create song schema
-  let songSchema = mongoose.Schema({
-    decade: String,
-    artist: String,
-    song: String,
-    weeksAtOne: Number
-  });
-
-  // Store song documents in a collection called "songs"
-  let Song = mongoose.model('songs', songSchema);
-
-  // Create seed data
-  let seventies = new Song({
+// Create seed data
+var seedData = [
+  {
     decade: '1970s',
     artist: 'Debby Boone',
     song: 'You Light Up My Life',
     weeksAtOne: 10
-  });
-
-  let eighties = new Song({
+  },
+  {
     decade: '1980s',
     artist: 'Olivia Newton-John',
     song: 'Physical',
     weeksAtOne: 10
-  });
-
-  let nineties = new Song({
+  },
+  {
     decade: '1990s',
     artist: 'Mariah Carey',
     song: 'One Sweet Day',
     weeksAtOne: 16
-  });
+  }
+];
 
+// Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname, details set in .env
+var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
+
+mongoose.connect(uri, function(err, db) {
+  if(err) throw err;
+  dbSongs+="<h1>MongoDB Example</h1>";
+  dbSongs+="Connecting to db "+process.env.DB+"<br />";
+  
   /*
-   * First we'll add a few songs. Nothing is required to create the
+   * First we'll add a few songs. Nothing is required to create the 
    * songs collection; it is created automatically when we insert.
    */
 
-  let list = [seventies, eighties, nineties]
+  var songs = db.collection('songs');
+  dbSongs+="Creating collection 'songs'<br />";
+  
+   // Note that the insert method can take either an array or a dict.
 
-  Song.insertMany(list).then(() => {
+  songs.insert(seedData, function(err, result) {
+    
+    if(err) throw err;
 
     /*
      * Then we need to give Boyz II Men credit for their contribution
      * to the hit "One Sweet Day".
      */
 
-    return Song.update({ song: 'One Sweet Day'}, { $set: { artist: 'Mariah Carey ft. Boyz II Men'} })
+    songs.update(
+      { song: 'One Sweet Day' }, 
+      { $set: { artist: 'Mariah Carey ft. Boyz II Men' } },
+      function (err, result) {
+        
+        if(err) throw err;
 
-  }).then(() => {
+        /*
+         * Finally we run a query which returns all the hits that spend 10 or
+         * more weeks at number 1.
+         */
 
-    /*
-     * Finally we run a query which returns all the hits that spend 10 or
-     * more weeks at number 1.
-     */
+        songs.find({ weeksAtOne : { $gte: 10 } }).sort({ decade: 1 }).toArray(function (err, docs) {
 
-    return Song.find({ weeksAtOne: { $gte: 10} }).sort({ decade: 1})
+          if(err) throw err;
 
-  }).then(docs => {
+          docs.forEach(function (doc) {
+            console.log(
+              'In the ' + doc['decade'] + ', ' + doc['song'] + ' by ' + doc['artist'] + 
+              ' topped the charts for ' + doc['weeksAtOne'] + ' straight weeks.'
+            );
+            dbSongs+="Adding "+doc['artist']+" - "+doc['song']+" into 'songs'<br />";
+          });
+         
+          // Since this is an example, we'll clean up after ourselves.
+          songs.drop(function (err) {
+            dbSongs+="Dropping collection 'songs'<br />";
+            if(err) throw err;
+          
+            // Only close the connection when your app is terminating.
+            db.close(function (err) {
+              dbSongs+="Closing db " + process.env.DB;
+              dbSongs+="<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div>";
+              if(err) throw err;
+            });
+          });
+        });
+      }
+    );
+  });
+});
 
-    docs.forEach(doc => {
-      console.log(
-        'In the ' + doc['decade'] + ', ' + doc['song'] + ' by ' + doc['artist'] +
-        ' topped the charts for ' + doc['weeksAtOne'] + ' straight weeks.'
-      );
-    });
+app.get("/", function (request, response) {
+  response.send(dbSongs);
+});
 
-  }).then(() => {
-
-    // Since this is an example, we'll clean up after ourselves.
-    return mongoose.connection.db.collection('songs').drop()
-
-  }).then(() => {
-
-    // Only close the connection when your app is terminating
-    return mongoose.connection.close()
-
-  }).catch(err => {
-
-    // Log any errors that are thrown in the Promise chain
-    console.log(err)
-
-  })
+// listen for requests :)
+var listener = app.listen("3000", function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
