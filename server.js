@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const mongodb = require('mongodb');
 const app = express();
-const dbSongs="";
+var dbSongs="";
 
 app.use(express.static('public'));
 
@@ -32,7 +33,7 @@ var uri = 'mongodb://heroku_7747z2zm:fljun785lss3u1mctj7fq2d3og@ds237610.mlab.co
 //var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
 
 mongoose.connect(uri, function(err, db) {
-  console.log(uri);
+  //console.log(uri);
   if(err) throw err;
   dbSongs+="<h1>MongoDB Example</h1>";
   dbSongs+="Connecting to db "+process.env.DB+"<br />";
