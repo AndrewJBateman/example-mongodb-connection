@@ -1,14 +1,14 @@
 // init project
-var express = require('express');
-var mongodb = require('mongodb');
-var mongoose = require('mongoose');
-var app = express();
-var dbSongs="";
+const express = require('express');
+const mongodb = require('mongodb');
+const mongoose = require('mongoose');
+const app = express();
+const dbSongs="";
 
 app.use(express.static('public'));
 
 // Create seed data
-var seedData = [
+const seedData = [
   {
     decade: '1970s',
     artist: 'Debby Boone',
