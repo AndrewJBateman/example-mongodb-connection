@@ -31,6 +31,7 @@ var seedData = [
 var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
 
 mongoose.connect(uri, function(err, db) {
+  console.log(uri);
   if(err) throw err;
   dbSongs+="<h1>MongoDB Example</h1>";
   dbSongs+="Connecting to db "+process.env.DB+"<br />";
