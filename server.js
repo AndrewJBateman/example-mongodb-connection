@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const mongodb = require('mongodb');
+//const mongodb = require('mongodb');
 const app = express();
 var dbSongs="";
 
@@ -29,8 +29,8 @@ var seedData = [
 ];
 
 // Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname, details set in .env
-var uri = 'mongodb://heroku_7747z2zm:fljun785lss3u1mctj7fq2d3og@ds237610.mlab.com:37610/heroku_7747z2zm'
-//var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
+//var uri = 'mongodb://heroku_7747z2zm:fljun785lss3u1mctj7fq2d3og@ds237610.mlab.com:37610/heroku_7747z2zm'
+var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
 
 mongoose.connect(uri, function(err, db) {
   //console.log(uri);
