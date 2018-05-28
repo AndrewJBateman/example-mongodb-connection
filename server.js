@@ -7,29 +7,28 @@ var dbSongs="";
 app.use(express.static('public'));
 
 // Create seed data
-var seedData = [
+var songData = [
   {
     decade: '1970s',
     artist: 'Debby Boone',
-    song: 'You Light Up My Life',
+    song: 'You Light Up My Life A little',
     weeksAtOne: 10
   },
   {
     decade: '1980s',
     artist: 'Olivia Newton-John',
-    song: 'Physical',
+    song: 'Physical so what',
     weeksAtOne: 10
   },
   {
     decade: '1990s',
     artist: 'Mariah Carey',
-    song: 'One Sweet Day',
+    song: 'One Sweet Day and a long week',
     weeksAtOne: 16
   }
 ];
 
 // Standard URI format: mongodb://[dbuser:dbpassword@]host:port/dbname, details set in .env
-//var uri = 'mongodb://heroku_7747z2zm:fljun785lss3u1mctj7fq2d3og@ds237610.mlab.com:37610/heroku_7747z2zm'
 var uri = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.PORT+'/'+process.env.DB;
 
 mongoose.connect(uri, function(err, db) {
@@ -48,7 +47,7 @@ mongoose.connect(uri, function(err, db) {
   
    // Note that the insert method can take either an array or a dict.
 
-  songs.insert(seedData, function(err, result) {
+  songs.insert(songData, function(err, result) {
     
     if(err) throw err;
 
@@ -82,17 +81,17 @@ mongoose.connect(uri, function(err, db) {
           });
          
           // Since this is an example, we'll clean up after ourselves.
-          songs.drop(function (err) {
-            dbSongs+="Dropping collection 'songs'<br />";
-            if(err) throw err;
+          //songs.drop(function (err) {
+            //dbSongs+="Dropping collection 'songs'<br />";
+            //if(err) throw err;
           
             // Only close the connection when your app is terminating.
             db.close(function (err) {
               dbSongs+="Closing db " + process.env.DB;
               dbSongs+="<script src=\"https://button.glitch.me/button.js\" data-style=\"glitch\"></script><div class=\"glitchButton\" style=\"position:fixed;top:20px;right:20px;\"></div>";
               if(err) throw err;
-            });
-          });
+            }); //end close db err
+          //}); // end drop db
         });
       }
     );
