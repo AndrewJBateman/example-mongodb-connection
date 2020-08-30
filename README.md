@@ -40,7 +40,7 @@
 
 ## :computer: Code Examples
 
-* extract from `myApp.js` to close database
+* extract from `server.js` to close database
 
 ```javascript
 // Only close the connection when your app is terminating.
