@@ -2,6 +2,7 @@
 
 * This app connects to a MongoDB database, creates a collection, populates it with items, then drops the collection and closes the connection.
 * Credit to Anish Karandikar (anishkny) who wrote the original code. I have taken it to modify and play with so I learn how to use a mlab mongodb database.
+* Note: mLab MongoDB Heroku add-on has been shut down - suggest MongoDB Atlas (free tier) is used instead
 
 **\* Note: to open web links in a new window use: _ctrl+click on link_**
 
@@ -59,7 +60,7 @@ db.close(function (err) {
 ## :clipboard: Status & To-Do List
 
 * Status: Working with original dependency versions
-* To-Do: nothing
+* To-Do: Update with latest database access methods
 
 ## :clap: Inspiration
 
