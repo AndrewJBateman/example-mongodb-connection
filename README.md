@@ -3,8 +3,12 @@
 * This app connects to a MongoDB database, creates a collection, populates it with items, then drops the collection and closes the connection.
 * Credit to Anish Karandikar (anishkny) who wrote the original code. I have taken it to modify and play with so I learn how to use a mlab mongodb database.
 * Note: mLab MongoDB Heroku add-on has been shut down - suggest MongoDB Atlas (free tier) is used instead
+* **Note:** to open web links in a new window use: _ctrl+click on link_
 
-**\* Note: to open web links in a new window use: _ctrl+click on link_**
+![GitHub repo size](https://img.shields.io/github/repo-size/AndrewJBateman/example-mongodb-connection?style=plastic)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/AndrewJBateman/example-mongodb-connection?style=plastic)
+![GitHub Repo stars](https://img.shields.io/github/stars/AndrewJBateman/example-mongodb-connection?style=plastic)
+![GitHub last commit](https://img.shields.io/github/last-commit/AndrewJBateman/example-mongodb-connection?style=plastic)
 
 ## :page_facing_up: Table of contents
 
@@ -17,6 +21,7 @@
 	* [:cool: Features](#cool-features)
 	* [:clipboard: Status & To-Do List](#clipboard-status--to-do-list)
 	* [:clap: Inspiration](#clap-inspiration)
+	* [:file_folder: License](#file_folder-license)
 	* [:envelope: Contact](#envelope-contact)
 
 ## :books: General info
@@ -66,6 +71,10 @@ db.close(function (err) {
 
 * [Github code: Anish Karandikar](https://github.com/anishkny)
 
+## :file_folder: License
+
+* N/A
+
 ## :envelope: Contact
 
-* Repo created by [ABateman](https://www.andrewbateman.org) - you are welcome to [send me a message](https://andrewbateman.org/contact)
+* Repo created by [ABateman](https://github.com/AndrewJBateman), email: gomezbateman@yahoo.com
